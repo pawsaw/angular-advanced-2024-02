@@ -5,17 +5,13 @@ import { BookNewComponent } from './book-new/book-new.component';
 import { BookListComponent } from './book-list/book-list.component';
 import { BookEditComponent } from './book-edit/book-edit.component';
 import { provideState } from '@ngrx/store';
-import { bookCollectionReducer, bookCollectionSliceName, bookFeatureName } from './store';
+import { bookFeatureName, bookReducers } from './store';
 
 export const bookRoutes: Routes = [
   {
     path: '',
     component: BookComponent,
-    providers: [
-      provideState(bookFeatureName, {
-        [bookCollectionSliceName]: bookCollectionReducer
-      })
-    ],
+    providers: [provideState(bookFeatureName, bookReducers)],
     children: [
       {
         path: '',
