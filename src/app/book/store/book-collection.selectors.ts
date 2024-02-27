@@ -1,7 +1,11 @@
 import { createSelector } from '@ngrx/store';
 import { selectBookFeature } from './book.feature';
 import { Book } from '../models';
+import { adapter } from './book-collection.adapter';
 
-export const selectBookCollection = createSelector(selectBookFeature, feature => feature.bookCollection.entities);
+export const selectBookCollectionSlice = createSelector(selectBookFeature, feature => feature.bookCollection);
+export const { selectAll: selectAllBooks, selectEntities: selectBookEntities } =
+  adapter.getSelectors(selectBookCollectionSlice);
+
 export const selectBookByIsbn = (isbn: Book['isbn']) =>
-  createSelector(selectBookCollection, books => books.find(book => book.isbn === isbn));
+  createSelector(selectBookEntities, bookEntities => bookEntities[isbn]);

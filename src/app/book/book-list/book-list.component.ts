@@ -6,7 +6,7 @@ import { BookCardComponent } from '../book-card/book-card.component';
 import { AsyncPipe, NgFor } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/app.state';
-import { selectBookCollection } from '../store';
+import { selectAllBooks, selectBookCollectionSlice } from '../store';
 
 @Component({
   selector: 'ws-book-list',
@@ -22,6 +22,6 @@ export class BookListComponent {
     private readonly bookService: BookApiService,
     private readonly store: Store<AppState>
   ) {
-    this.books$ = this.store.select(selectBookCollection);
+    this.books$ = this.store.select(selectAllBooks);
   }
 }
