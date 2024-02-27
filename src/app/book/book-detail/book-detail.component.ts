@@ -49,13 +49,12 @@ export class BookDetailComponent {
     private readonly bookService: BookApiService,
     private readonly store: Store,
     private readonly destroyRef: DestroyRef
-  ) {
-    this.book$ = this.store.select(selectBookByIsbn);
-  }
+  ) {}
 
   @Input({ required: true })
   set isbn(isbn: string) {
     // this.book$ = this.bookService.getByIsbn(isbn);
+    this.book$ = this.store.select(selectBookByIsbn);
     this.isbnValue = isbn;
   }
 
