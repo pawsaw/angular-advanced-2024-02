@@ -1,7 +1,7 @@
 import { Component, DestroyRef, Input } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { Observable } from 'rxjs';
-import { filter, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { BookApiService } from '../book-api.service';
 import { Book } from '../models';
 import { MatButton } from '@angular/material/button';
@@ -17,7 +17,6 @@ import {
 } from '@angular/material/card';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { AppState } from '../../store/app.state';
 import { Store } from '@ngrx/store';
 import { selectBookByIsbn } from '../store';
 
@@ -48,14 +47,15 @@ export class BookDetailComponent {
   constructor(
     private readonly router: Router,
     private readonly bookService: BookApiService,
-    private readonly store: Store<AppState>,
+    private readonly store: Store,
     private readonly destroyRef: DestroyRef
-  ) {}
+  ) {
+    this.book$ = this.store.select(selectBookByIsbn);
+  }
 
   @Input({ required: true })
   set isbn(isbn: string) {
     // this.book$ = this.bookService.getByIsbn(isbn);
-    this.book$ = this.store.select(selectBookByIsbn(isbn)).pipe(filter((book): book is Book => !!book));
     this.isbnValue = isbn;
   }
 
